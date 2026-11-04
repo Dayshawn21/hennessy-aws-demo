@@ -64,7 +64,7 @@ export const photos = {
   birthdayFifty: { src: work("birthday-fifty"), alt: "Photo placeholder: birthday fifty" },
   weddingRooftop: { src: work("wedding-chicago"), alt: "Photo placeholder: wedding chicago" },
   productPerfume: { src: work("product-perfume"), alt: "Photo placeholder: product perfume" },
-  studioRoom: { src: work("studio-room", "png"), alt: "Photo placeholder: studio room", preview: true },
+  studioRoom: { src: work("studio-room", "png"), alt: "Illustrative photo of a photography studio with lighting and a director’s chair", illustrative: true },
 };
 
 // Each service is a hang tag. `includes` comes from the published packages; nothing here is invented.

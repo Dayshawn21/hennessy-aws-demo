@@ -90,6 +90,7 @@ function Photo({ src, alt, position, ...props }) {
 }
 
 function PhotoFlag({ photo }) {
+  if (photo.illustrative) return <span className="placeholder-flag">Illustrative studio photo</span>;
   if (photo.preview) return <span className="placeholder-flag">Low-res preview</span>;
   if (photo.placeholder) return <span className="placeholder-flag">Placeholder photo</span>;
   return null;
@@ -583,7 +584,7 @@ function BusinessPage({ navigate }) {
       </section>
 
       <section id="rental" className="session" aria-labelledby="rental-heading">
-        <PinnedPhoto photo={rental.photo} notes={[{ text: "650 sq ft", at: "top" }, { text: "12-ft roll-up door", at: "side" }]} />
+        <PinnedPhoto photo={rental.photo} />
         <div className="session__copy">
           <HangTag service={rental} as="static" showSummary headingId="rental-heading" />
           <ul className="stitch-list">{rental.includes.map((item) => <li key={item}>{item}</li>)}</ul>
