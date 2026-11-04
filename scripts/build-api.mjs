@@ -4,7 +4,7 @@ import { build } from "esbuild";
 import { execFileSync } from "node:child_process";
 import { mkdirSync, rmSync } from "node:fs";
 
-const functions = ["inquiries", "bookings"];
+const functions = ["inquiries", "bookings", "admin"];
 
 rmSync("api/dist", { recursive: true, force: true });
 for (const name of functions) {
