@@ -251,7 +251,7 @@ function Footer({ navigate }) {
           <a href={site.instagram} target="_blank" rel="noreferrer">Instagram {site.instagramHandle}</a>
         </address>
       </div>
-      <p className="site-footer__legal">© 2026 Hennessy Williams Photo · Booking and galleries by Pixieset</p>
+      <p className="site-footer__legal">© 2026 Hennessy Williams Photo · Booking and galleries by Pixieset · <InternalLink href="/admin" navigate={navigate}>Admin (demo)</InternalLink></p>
     </footer>
   );
 }

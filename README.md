@@ -32,7 +32,7 @@ Done and working:
 - API throttling on the default stage (rate 5/s, burst 10)
 - Booking requests with no double booking: one DynamoDB transaction flips a slot `open` -> `requested` only if it is still open, and records the request. Tested with parallel requests (`scripts/race-test.mjs`): exactly one 201, the rest 409.
 
-Written but never run: a GitHub Actions deploy (`.github/workflows/deploy.yml`, GitHub OIDC, no stored keys). It cannot run on this AWS account yet: the account is on the AWS Free Plan, where IAM identity providers are locked until the account is upgraded (which removes the spend limits). I chose not to upgrade, so deploys are manual.
+Written but never run: a GitHub Actions deploy (`.github/workflows/deploy.yml`, GitHub OIDC, no stored keys). It cannot run on this AWS account: the account is on the AWS Free Plan, and a service control policy explicitly denies `iam:CreateOpenIDConnectProvider` (the console also locks IAM identity providers until the account is upgraded, which removes the spend limits). I chose not to upgrade, so deploys are manual.
 
 - Admin login with Cognito (hosted UI, authorization code + PKCE, self-registration off, `admin` group). Admin routes `GET /admin/overview` and `POST /admin/requests/{id}/confirm|decline` sit behind an API Gateway JWT authorizer (signed-out calls return 401) and the Lambda also checks the `admin` group.
 - `/admin` dashboard (React): requests and inquiries, confirm/decline, simple bar charts. Confirm and decline are conditional DynamoDB transactions. Checked live: confirm set a request to `booked`, decline set it to `declined` and the slot accepted a new booking again.
