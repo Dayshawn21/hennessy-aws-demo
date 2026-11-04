@@ -35,6 +35,9 @@ export const navigation = [
 const work = (name, ext = "jpg") => `/assets/photos/work/${name}.${ext}`;
 
 export const photos = {
+  businessHero: { src: work("business-hero"), alt: "Skincare bottles arranged on a reflective surface" },
+  realEstateInterior: { src: work("real-estate-interior"), alt: "Sunlit living room with plants" },
+  originFilmPrints: { src: work("origin-film-prints"), alt: "Illustrative photograph of film negatives and prints on a light table" },
   gradBooks: { src: work("grad-books-stoles"), alt: "Photo placeholder: grad books stoles" },
   gradLibrary: { src: work("grad-library-hands"), alt: "Photo placeholder: grad library hands" },
   gradReading: { src: work("grad-confetti"), alt: "Photo placeholder: grad confetti" },

@@ -401,7 +401,7 @@ function HomePage({ navigate }) {
           <p>Hennessy fell for photography watching an older brother develop a black-and-white portrait in Chicago. Every session since has chased the same thing: a picture that holds a whole story.</p>
           <TextLink href="/about" navigate={navigate}>Meet Hennessy</TextLink>
         </div>
-        <GhostSlot className="ghost--photo origin__photo" chalk="headshot goes here" title="Hennessy’s portrait" body="A real photo of Hennessy belongs here, not a stand-in." />
+        <PinnedPhoto className="origin__photo" photo={photos.originFilmPrints} />
       </section>
 
       <section className="process" aria-labelledby="process-heading">
@@ -554,7 +554,7 @@ function BusinessPage({ navigate }) {
       <PageHero
         title={<>Photography for <span className="chalked">business.<ChalkUnderline /></span></>}
         lede="Product photos at $25 per item, real estate listings at $175, and Hennessy’s 650 sq ft Stockton studio by the hour."
-        aside={<GhostSlot className="ghost--photo" chalk="business photo goes here" title="Business photo" body="A real product, listing or studio shot from Hennessy belongs here." />}
+        aside={<PinnedPhoto photo={photos.businessHero} eager />}
       />
 
       <section id="product" className="session" aria-labelledby="product-heading">
@@ -571,7 +571,7 @@ function BusinessPage({ navigate }) {
       </section>
 
       <section id="realestate" className="session session--flip" aria-labelledby="realestate-heading">
-        <GhostSlot className="ghost--photo" chalk="listing photo goes here" title="Real estate photo" body="A real listing shot from Hennessy belongs here." />
+        <PinnedPhoto photo={photos.realEstateInterior} />
         <div className="session__copy">
           <HangTag service={realEstate} as="static" showSummary headingId="realestate-heading" />
           <ul className="stitch-list">{realEstate.includes.map((item) => <li key={item}>{item}</li>)}</ul>
@@ -706,7 +706,7 @@ function AboutPage({ navigate }) {
           <h1 className="display">Photography started with <span className="chalked">one print.<ChalkUnderline /></span></h1>
           <p className="lede">Growing up on the South Side of Chicago, Hennessy Williams learned early that a photograph could carry more than a likeness. It could hold a whole story.</p>
         </div>
-        <GhostSlot className="ghost--photo" chalk="headshot goes here" title="Hennessy’s portrait" body="A real photo of Hennessy belongs here, not a stand-in." />
+        <PinnedPhoto photo={photos.originFilmPrints} eager />
       </section>
       <section className="story">
         <p>Watching his eldest brother develop a black-and-white film portrait turned curiosity into a lasting devotion to the craft.</p>
