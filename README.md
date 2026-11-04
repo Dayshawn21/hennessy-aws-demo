@@ -17,7 +17,7 @@ Browser -> API Gateway (HTTP API, POST /inquiries) -> Lambda (TypeScript) -> Dyn
 |---|---|
 | S3 (private) | Holds the Vite build. No public access; only CloudFront can read it. |
 | CloudFront | Serves the site over HTTPS. 403/404 return `/index.html` (status 200) so client-side routes survive a refresh. |
-| API Gateway (HTTP API) | `POST /inquiries`, CORS limited to the CloudFront domain. |
+| API Gateway (HTTP API) | `POST /inquiries`, CORS limited to the CloudFront domain, throttled to 5 requests/second (burst 10). |
 | Lambda (Node.js, TypeScript) | Validates the form body, honeypot field, writes the item. Dedicated role with `dynamodb:PutItem` on one table only. |
 | DynamoDB (on-demand) | Table with `pk` / `sk`. Inquiry item: `pk = INQ#<id>`, `sk = META`, status `new`. |
 | CloudWatch Logs | Lambda logs. |
@@ -27,8 +27,9 @@ Browser -> API Gateway (HTTP API, POST /inquiries) -> Lambda (TypeScript) -> Dyn
 Done and working:
 - Static hosting on S3 + CloudFront with Origin Access Control and SPA fallback
 - Inquiry API: contact form -> API Gateway -> Lambda -> DynamoDB
+- API throttling on the default stage (rate 5/s, burst 10)
 
-Not built yet (planned in `AWS_DEMO_PLAN.md`): API throttling, booking requests with conditional writes, Cognito login and admin dashboard, GitHub Actions deploy, CloudWatch alarm.
+Not built yet (planned in `AWS_DEMO_PLAN.md`): booking requests with conditional writes, Cognito login and admin dashboard, GitHub Actions deploy, CloudWatch alarm.
 
 The console steps I followed are in `PHASE1_RUNBOOK.md` and `PHASE2_RUNBOOK.md`.
 
