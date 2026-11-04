@@ -10,6 +10,7 @@ Live demo: https://d3vxtn9s8u8bor.cloudfront.net
 ```
 Browser -> CloudFront -> private S3 bucket (static React build, Origin Access Control)
 Browser -> API Gateway (HTTP API: POST /inquiries, GET /slots, POST /bookings) -> Lambda (TypeScript) -> DynamoDB
+Admin -> Cognito hosted login (PKCE) -> JWT authorizer on /admin/* routes -> admin Lambda -> DynamoDB
                                                          \-> CloudWatch Logs
 ```
 
@@ -18,7 +19,8 @@ Browser -> API Gateway (HTTP API: POST /inquiries, GET /slots, POST /bookings) -
 | S3 (private) | Holds the Vite build. No public access; only CloudFront can read it. |
 | CloudFront | Serves the site over HTTPS. 403/404 return `/index.html` (status 200) so client-side routes survive a refresh. |
 | API Gateway (HTTP API) | `POST /inquiries`, `GET /slots`, `POST /bookings`, CORS limited to the CloudFront domain, throttled to 5 requests/second (burst 10). |
-| Lambda (Node.js, TypeScript) | Two functions. `inquiries` validates the form and writes the item (role: `PutItem` only). `bookings` lists open slots and requests one (role: `Query`, `UpdateItem`, `PutItem` on one table). Each has its own role. |
+| Cognito | User pool with an `admin` group; hosted login. The site holds only the public domain and client ID. |
+| Lambda (Node.js, TypeScript) | Three functions (the third, admin, is described under Status). `inquiries` validates the form and writes the item (role: `PutItem` only). `bookings` lists open slots and requests one (role: `Query`, `UpdateItem`, `PutItem` on one table). Each has its own role. |
 | DynamoDB (on-demand) | One table with `pk` / `sk`. Inquiry: `INQ#<id>` / `META`. Slot: `SLOT#<date>` / `<time>`, status `open` or `requested`. Booking request: `REQ#<id>` / `META`. |
 | CloudWatch Logs | Lambda logs. |
 
@@ -32,9 +34,14 @@ Done and working:
 
 Written but never run: a GitHub Actions deploy (`.github/workflows/deploy.yml`, GitHub OIDC, no stored keys). It cannot run on this AWS account yet: the account is on the AWS Free Plan, where IAM identity providers are locked until the account is upgraded (which removes the spend limits). I chose not to upgrade, so deploys are manual.
 
-Not built yet (planned in `AWS_DEMO_PLAN.md`): admin confirm/decline of booking requests (needs login), Cognito and an admin dashboard, CloudWatch alarm.
+- Admin login with Cognito (hosted UI, authorization code + PKCE, self-registration off, `admin` group). Admin routes `GET /admin/overview` and `POST /admin/requests/{id}/confirm|decline` sit behind an API Gateway JWT authorizer (signed-out calls return 401) and the Lambda also checks the `admin` group.
+- `/admin` dashboard (React): requests and inquiries, confirm/decline, simple bar charts. Confirm and decline are conditional DynamoDB transactions. Checked live: confirm set a request to `booked`, decline set it to `declined` and the slot accepted a new booking again.
 
-The console steps I followed are in `PHASE1_RUNBOOK.md`, `PHASE2_RUNBOOK.md` and `PHASE3_RUNBOOK.md`.
+Not built yet (planned in `AWS_DEMO_PLAN.md`): CloudWatch alarm, notes field and a by-city chart on the dashboard.
+
+The admin Lambda in the console is named `hennessy-demo-admi` (a typo I did not rename). Charts are plain CSS bars, not Chart.js. The admin page is TypeScript but has no type-check step.
+
+The console steps I followed are in `PHASE1_RUNBOOK.md` to `PHASE4_RUNBOOK.md`.
 
 ## Run it locally
 
