@@ -1,5 +1,7 @@
 # Phase 5 runbook: GitHub Actions deploy (OIDC) and a CloudWatch alarm
 
+> **Status:** sections A-D are blocked on the AWS Free Plan (IAM identity providers require upgrading the account, which removes spend limits). Not done. Section E (alarms) is independent.
+
 Region us-east-2. Replace `ACCOUNT_ID` with your 12-digit AWS account ID (find it under your name, top right of the console). Never commit it. Tick a box only when you did it.
 
 ## A. IAM: identity provider for GitHub
