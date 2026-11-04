@@ -4,8 +4,9 @@ import {
   reviews, services, sessionChoices, sessionOrder, site,
 } from "./content.js";
 import { submitInquiry } from "./formAdapter.js";
+import AdminPage from "./admin.tsx";
 
-const internalRoutes = new Set(["/", "/sessions", "/business", "/work", "/about", "/contact"]);
+const internalRoutes = new Set(["/", "/sessions", "/business", "/work", "/about", "/contact", "/admin"]);
 const legacyRoutes = { "/portfolio": "/work", "/services": "/sessions", "/studio": "/business", "/graduation": "/sessions" };
 const legacyHash = { "/graduation": "#graduation" };
 
@@ -867,6 +868,7 @@ export function App() {
     if (path === "/work") return <WorkPage key={window.location.search} />;
     if (path === "/about") return <AboutPage navigate={navigate} />;
     if (path === "/contact") return <ContactPage key={window.location.search} />;
+    if (path === "/admin") return <AdminPage />;
     if (path === "/404") return <NotFoundPage navigate={navigate} />;
     return <HomePage navigate={navigate} />;
   }, [path]);
